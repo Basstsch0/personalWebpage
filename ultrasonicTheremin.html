@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Ultrasonic Theremin</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="ultrasound-based-theremin-with-raspberry-pi">Ultrasound-Based
+Theremin with Raspberry Pi</h1>
+<p>In my high school project, I built an ultrasound-based Theremin using
+a <strong>Raspberry Pi 3</strong> and <strong>ultrasonic
+sensors</strong>. The Theremin is an electronic musical instrument that
+is typically played without physical contact, using the hands’ position
+relative to antennas to control pitch and volume. My goal was to
+recreate this functionality using ultrasonic sensors instead of the
+traditional electromagnetic fields, while maintaining the unique, eerie
+sound for which the Theremin is known.</p>
+<h2 id="project-overview">Project Overview</h2>
+<h3 id="key-components">Key Components</h3>
+<ul>
+<li><strong>Raspberry Pi 3</strong>: The central processing unit
+responsible for running the software that controls the sensors and
+generates sound.</li>
+<li><strong>Ultrasonic Sensors (HC-SR04)</strong>: These sensors were
+used to detect hand position. One sensor measured the distance of the
+hand to control the pitch, and the second sensor controlled the
+volume.</li>
+<li><strong>Pygame Library</strong>: This Python library was used for
+audio playback. I mapped distances from the sensors to pre-recorded
+piano notes, allowing the instrument to play sound based on hand
+movement.</li>
+<li><strong>Wooden Enclosure</strong>: A custom-built housing was made
+to contain the electronics, with two drilled openings for the ultrasonic
+sensors and space for the audio output.</li>
+</ul>
+<h3 id="electronics-and-circuit-design">Electronics and Circuit
+Design</h3>
+<p>The circuit was relatively simple but required careful configuration
+to ensure accurate distance measurement and sound generation. The
+<strong>HC-SR04 sensors</strong> were both connected to the GPIO pins of
+the Raspberry Pi in the following way:</p>
+<img src="assets/mdData/plan.png" alt="Sensor connection" width="400"/>
+
+<p>Each sensor had a specific role:</p>
+<ul>
+<li><strong>Sensor 1</strong>: Controlled the pitch of the sound by
+measuring the distance from the player’s hand. The distance was mapped
+to specific musical notes. For example, moving the hand closer to the
+sensor would produce a higher pitch, while moving it farther away would
+lower the pitch.</li>
+<li><strong>Sensor 2</strong>: Controlled the volume in a similar way,
+adjusting the loudness of the sound based on hand distance. When the
+hand was close, the volume was low, and as the hand moved away, the
+volume increased.</li>
+</ul>
+<p>The sensors worked by emitting ultrasonic pulses and measuring the
+time it took for the sound to bounce back after hitting the hand. This
+allowed for precise distance measurement, which was then used to control
+sound parameters.</p>
+<h3 id="software-implementation">Software Implementation</h3>
+<p>The project was programmed using <strong>Python</strong>. The
+software was responsible for reading data from the ultrasonic sensors,
+processing the measurements, and converting them into corresponding
+sounds. I used the <strong>Pygame</strong> library to play pre-recorded
+piano notes, mapping specific distances to individual notes. The program
+also accounted for volume control, ensuring that the sound output
+matched the distance detected by the second sensor.</p>
+<h3 id="distance-testing-process">Distance Testing Process</h3>
+<p>To ensure the accuracy of the sensors, I conducted multiple distance
+tests. Using a simple setup, I marked specific distances from the
+sensors and tested their ability to correctly measure hand positions.
+The system was able to detect distances from <strong>5 cm to 30
+cm</strong>, although accuracy dropped slightly at very close ranges.
+These tests helped me refine the pitch and volume scaling, ensuring
+smoother transitions between notes.</p>
+<img src="assets/mdData/thereminTest2.jpeg" alt="Theremin Test " width="400"/>
+<img src="assets/mdData/thereminTest1.jpeg" alt="Theremin Test " width="400"/>
+
+<p>I also encountered challenges with sensor noise and occasional
+inaccuracies, especially for distances under <strong>5 cm</strong>,
+which required some tweaking of the code to ignore faulty readings. The
+testing phase was crucial to fine-tuning the responsiveness of the
+Theremin, as even small deviations could lead to incorrect note
+generation.</p>
+<h3 id="results-and-learnings">Results and Learnings</h3>
+<p>While the final product successfully generated sound based on hand
+movement, it didn’t perfectly emulate the mystical tones of a
+traditional Theremin. Instead, it played discrete piano notes, which
+gave it a more mechanical sound. However, the project was still a
+success in demonstrating how ultrasonic sensors could be used to
+replicate key aspects of the original instrument’s functionality.</p>
+<p>The biggest takeaways from this project were learning about:</p>
+<ul>
+<li><strong>Sensor integration</strong>: Using ultrasonic sensors for
+distance measurement.</li>
+<li><strong>Circuit design</strong>: Creating a simple but functional
+electronic system.</li>
+<li><strong>Python programming</strong>: Implementing sensor data
+processing and audio playback.</li>
+</ul>
+<p>Below there are images of the completed Theremin:</p>
+<img src="assets/mdData/theremin4.jpeg" alt="Theremin" width="400"/>
+<img src="assets/mdData/theremin2.jpeg" alt="Theremin" width="400"/>
+<img src="assets/mdData/theremin3.jpeg" alt="Theremin" width="550"/>
+<img src="assets/mdData/theremin1.jpeg" alt="Theremin" width="400"/>
+</body>
+</html>
